@@ -19,14 +19,15 @@
 
 #include <support>
 
-/*extern "C" void *__cxa_allocate_exception(size_t thrown_size){
+#if 0
+extern "C" void *__cxa_allocate_exception(size_t thrown_size){
 	void * retval;
 
 	/*The amount of data needed is the size of the object *PLUS*
 	the size of the header.  The header is of struct __cxa_exception
 	The address needs to be adjusted because the pointer we return
 	should not point to the start of the memory, but to the point
-	where the object being thrown actually starts
+	where the object being thrown actually starts*/
 
 	retval = malloc(thrown_size + sizeof(__cxa_exception));
 
@@ -50,4 +51,4 @@ extern "C" void __cxa_throw (void *thrown_exception, std::type_info *tinfo,void 
 
 
 }
-*/
+#endif
