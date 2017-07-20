@@ -17,7 +17,6 @@
 */
 
 #include <basic_definitions>
-#include <string.h>
 #include <exception>
 #include <memory>
 #include <char_traits>
@@ -27,7 +26,7 @@
 
 #pragma GCC visibility push(default)
 
-namespace std{
+namespace std {
 
 	struct _UCXXEXPORT __true_type{};
 	struct _UCXXEXPORT __false_type{};
@@ -83,8 +82,16 @@ namespace std{
 	};
 
 
+	/* std::conditional<> */
+	template <bool _Bp, class _If, class _Then>
+	struct _UCXXEXPORT conditional { typedef _If type; };
 
-}
+	template <class _If, class _Then>
+	struct _UCXXEXPORT conditional<false, _If, _Then> { typedef _Then type; };
+
+	template <bool _Bp, class _If, class _Then> using conditional_t = typename conditional<_Bp, _If, _Then>::type;
+
+} /* namespace std */
 
 #pragma GCC visibility pop
 
