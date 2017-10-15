@@ -32,13 +32,13 @@
 
 namespace std{
 #ifdef __UCLIBCXX_SUPPORT_CIN__
-	extern istream cin;
+	extern istream& cin;
 #endif
 #ifdef __UCLIBCXX_SUPPORT_COUT__
-	extern ostream cout;
+	extern ostream& cout;
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CERR__
-	extern ostream cerr;
+	extern ostream& cerr;
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CLOG__
 	extern ostream clog;

@@ -25,8 +25,9 @@
 #define __UCLIBCXX_IOSTREAM_BUFSIZE__ 32
 #undef __UCLIBCXX_HAS_LFS__
 #undef __UCLIBCXX_SUPPORT_CDIR__
-#undef __UCLIBCXX_SUPPORT_COUT__
-#undef __UCLIBCXX_SUPPORT_CERR__
+#define __UCLIBCXX_SUPPORT_CIN__
+#define __UCLIBCXX_SUPPORT_COUT__
+#define __UCLIBCXX_SUPPORT_CERR__
 /*
  * STL and Code Expansion
  */
