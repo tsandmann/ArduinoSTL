@@ -45,6 +45,8 @@
 #undef sqrt
 #undef tan
 #undef tanh
+#undef isnan
+#undef isinf
 
 namespace std {
 
@@ -70,6 +72,8 @@ namespace std {
 	using ::sqrt;
 	using ::tan;
 	using ::tanh;
+	using ::isnan;
+	using ::isinf;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
 	inline float abs  (float x){

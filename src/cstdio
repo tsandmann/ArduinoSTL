@@ -22,7 +22,7 @@
 #define __HEADER_CSTDIO 1
 
 
-namespace std{
+namespace std {
 	using ::FILE;
 	using ::fpos_t;
 
@@ -71,7 +71,4 @@ namespace std{
 	using ::vsprintf;
 }
 
-
-
-#endif
-
+#endif // __HEADER_CSTDIO
