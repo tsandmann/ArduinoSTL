@@ -149,6 +149,83 @@ namespace std {
 		typedef _Tp type;
 	};
 
+
+	// remove_const
+	template <class _Tp> struct remove_const            { typedef _Tp type; };
+	template <class _Tp> struct remove_const<const _Tp> { typedef _Tp type; };
+	template <class _Tp> using remove_const_t = typename remove_const<_Tp>::type;
+
+	// remove_volatile
+	template <class _Tp> struct remove_volatile               { typedef _Tp type; };
+	template <class _Tp> struct remove_volatile<volatile _Tp> { typedef _Tp type; };
+	template <class _Tp> using remove_volatile_t = typename remove_volatile<_Tp>::type;
+
+	// remove_cv
+	template <class _Tp> struct remove_cv { typedef typename remove_volatile<typename remove_const<_Tp>::type>::type type;	};
+	template <class _Tp> using remove_cv_t = typename remove_cv<_Tp>::type;
+
+	// is_integral
+	template <class _Tp> struct __libcpp_is_integral                     : public false_type {};
+	template <>          struct __libcpp_is_integral<bool>               : public true_type {};
+	template <>          struct __libcpp_is_integral<char>               : public true_type {};
+	template <>          struct __libcpp_is_integral<signed char>        : public true_type {};
+	template <>          struct __libcpp_is_integral<unsigned char>      : public true_type {};
+	template <>          struct __libcpp_is_integral<wchar_t>            : public true_type {};
+	template <>          struct __libcpp_is_integral<short>              : public true_type {};
+	template <>          struct __libcpp_is_integral<unsigned short>     : public true_type {};
+	template <>          struct __libcpp_is_integral<int>                : public true_type {};
+	template <>          struct __libcpp_is_integral<unsigned int>       : public true_type {};
+	template <>          struct __libcpp_is_integral<long>               : public true_type {};
+	template <>          struct __libcpp_is_integral<unsigned long>      : public true_type {};
+	template <>          struct __libcpp_is_integral<long long>          : public true_type {};
+	template <>          struct __libcpp_is_integral<unsigned long long> : public true_type {};
+
+	template <class _Tp> struct is_integral
+	    : public __libcpp_is_integral<typename remove_cv<_Tp>::type> {};
+
+	// is_floating_point
+	template <class _Tp> struct __libcpp_is_floating_point              : public false_type {};
+	template <>          struct __libcpp_is_floating_point<float>       : public true_type {};
+	template <>          struct __libcpp_is_floating_point<double>      : public true_type {};
+	template <>          struct __libcpp_is_floating_point<long double> : public true_type {};
+
+	template <class _Tp> struct is_floating_point
+	    : public __libcpp_is_floating_point<typename remove_cv<_Tp>::type> {};
+
+
+	// is_arithmetic
+	template <class _Tp> struct is_arithmetic
+	    : public integral_constant<bool, is_integral<_Tp>::value || is_floating_point<_Tp>::value> {};
+
+	// is_signed
+	template <class _Tp, bool = is_integral<_Tp>::value>
+	struct __libcpp_is_signed_impl : public integral_constant<bool, _Tp(-1) < _Tp(0)> {};
+
+	template <class _Tp>
+	struct __libcpp_is_signed_impl<_Tp, false> : public true_type {}; // floating point
+
+	template <class _Tp, bool = is_arithmetic<_Tp>::value>
+	struct __libcpp_is_signed : public __libcpp_is_signed_impl<_Tp> {};
+
+	template <class _Tp> struct __libcpp_is_signed<_Tp, false> : public false_type {};
+
+	template <class _Tp> struct is_signed : public __libcpp_is_signed<_Tp> {};
+
+	// is_unsigned
+	template <class _Tp, bool = is_integral<_Tp>::value>
+	struct __libcpp_is_unsigned_impl : public integral_constant<bool, _Tp(0) < _Tp(-1)> {};
+
+	template <class _Tp>
+	struct __libcpp_is_unsigned_impl<_Tp, false> : public false_type {}; // floating point
+
+	template <class _Tp, bool = is_arithmetic<_Tp>::value>
+	struct __libcpp_is_unsigned : public __libcpp_is_unsigned_impl<_Tp> {};
+
+	template <class _Tp> struct __libcpp_is_unsigned<_Tp, false> : public false_type {};
+
+	template <class _Tp> struct is_unsigned : public __libcpp_is_unsigned<_Tp> {};
+
+
 } /* namespace std */
 
 #pragma GCC visibility pop
