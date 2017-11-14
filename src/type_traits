@@ -164,6 +164,12 @@ namespace std {
 	template <class _Tp> struct remove_cv { typedef typename remove_volatile<typename remove_const<_Tp>::type>::type type;	};
 	template <class _Tp> using remove_cv_t = typename remove_cv<_Tp>::type;
 
+	// remove_reference
+	template <class _Tp> struct remove_reference        {typedef _Tp type;};
+	template <class _Tp> struct remove_reference<_Tp&>  {typedef _Tp type;};
+	template <class _Tp> struct remove_reference<_Tp&&> {typedef _Tp type;};
+	template <class _Tp> using remove_reference_t = typename remove_reference<_Tp>::type;
+
 	// is_integral
 	template <class _Tp> struct __libcpp_is_integral                     : public false_type {};
 	template <>          struct __libcpp_is_integral<bool>               : public true_type {};
@@ -225,7 +231,35 @@ namespace std {
 
 	template <class _Tp> struct is_unsigned : public __libcpp_is_unsigned<_Tp> {};
 
+	// is_reference
 
+	template <class _Tp> struct is_lvalue_reference       : public false_type {};
+	template <class _Tp> struct is_lvalue_reference<_Tp&> : public true_type {};
+
+	template <class _Tp> struct is_rvalue_reference        : public false_type {};
+	template <class _Tp> struct is_rvalue_reference<_Tp&&> : public true_type {};
+
+	template <class _Tp> struct is_reference        : public false_type {};
+	template <class _Tp> struct is_reference<_Tp&>  : public true_type {};
+	template <class _Tp> struct is_reference<_Tp&&> : public true_type {};
+
+	// move
+	template <class _Tp>
+	inline constexpr typename remove_reference<_Tp>::type&& move(_Tp&& __t) noexcept {
+		typedef typename remove_reference<_Tp>::type _Up;
+		return static_cast<_Up&&>(__t);
+	}
+
+	template <class _Tp>
+	inline constexpr _Tp&& forward(typename remove_reference<_Tp>::type& __t) noexcept {
+		return static_cast<_Tp&&>(__t);
+	}
+
+	template <class _Tp>
+	inline constexpr _Tp&& forward(typename remove_reference<_Tp>::type&& __t) noexcept {
+		static_assert(!is_lvalue_reference<_Tp>::value, "can not forward an rvalue as an lvalue");
+		return static_cast<_Tp&&>(__t);
+	}
 } /* namespace std */
 
 #pragma GCC visibility pop

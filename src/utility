@@ -56,7 +56,7 @@ namespace std{
 		pair(const T1& x, const T2& y) : first(x), second(y) {  }
 		template<class U, class V> pair(const pair<U, V> &p) : first(p.first), second(p.second) { }
 	};
-	
+
 	template <class T1, class T2> bool operator==(const pair<T1,T2>& x, const pair<T1,T2>& y){
 		using namespace rel_ops;
 		return (x.first == y.first && x.second==y.second);
