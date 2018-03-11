@@ -50,9 +50,11 @@
 //Testing purposes
 #define __STRING_MAX_UNITS 65535
 
-namespace std{
+#ifdef __cplusplus
+namespace std {
 	typedef signed long int streamsize;
 }
+#endif // __cplusplus
 
 #pragma GCC visibility pop
 
